@@ -15,12 +15,26 @@ Private-access dashboard for discovering and launching personal applications, ag
 
 ## Current capabilities
 
-- 23 starting catalog cards across Apps, AI Agents, Automations, Business, Music, Research, and Local Tools
-- Search, category and status filters, favorites, per-tool detail panels
-- Custom add/edit/delete tool cards and local backup import/export
-- DJ Music Finder request generator with an actual Google Sheet shortcut delivered by a protected server endpoint
-- Honest progress labels distinguishing recorded links from proven functional integrations
-- Test and launch checklist
+- 23 catalog cards across Apps, AI Agents, Automations, Business, Music, Research and Local Tools
+- Search, filters, favorites, and add/edit/delete catalog entries, with browser-local backup
+- **Native in-app workbenches**:
+  - DJ Music Studio: YouTube Data API search (when API key connected), YouTube oEmbed verification for specific URLs, in-app video preview, track selection, browser drafts and CSV export, and Google Sheets append (when service account connected)
+  - Factory ZERO RESS Pack Counter: enter or upload a Pack BOM CSV; filter by pack and station; count duplicate parts; exclude zeros; export results
+  - Detroit Property Deal Analyzer: calculate acquisition cost, gross yield, operating expenses, NOI and cap rate from manually provided inputs; export results
+  - Crown Pro Campaign Runner: securely send a request to the configured Make.com webhook (when connected)
+  - RoofQuote Studio, Fantasy Secret Sauce, and Rental Website Factory: attempt in-app iframe view; if the external site disallows embedding, use its normal site link
+- Checklists showing integrations that still need credentials or real-world testing
+
+## Required environment variables for connected workflows
+
+- `DJ_SHEET_URL`: existing private Google Sheet URL (already set in this Vercel project)
+- `YOUTUBE_DATA_API_KEY`: official YouTube Data API v3 key, server-side only (not connected)
+- **Either** `DJ_GOOGLE_SERVICE_ACCOUNT_JSON` (JSON service account credential) **or** `DJ_GOOGLE_SERVICE_ACCOUNT_EMAIL` and `DJ_GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`: required to write to the spreadsheet (not connected). Share the specific existing spreadsheet with the service account email with Editor access.
+- `MAKE_CROWN_POST_WEBHOOK`: Make.com official HTTPS webhook URL for Crown Pro posting requests, server-side only (not connected)
+
+Set secrets directly in Vercel's encrypted environment configuration. Do not paste them into the app's cards or a GitHub issue. Google OAuth credentials connected to ChatGPT do not automatically authorize this separate Vercel app.
+
+The YouTube search endpoint uses the official YouTube Data API. BPM is not calculated automatically; exact music matches require review. The sheet endpoint matches existing tab layouts and avoids adding duplicate video URLs within the selected tab. A Make.com trigger acknowledgement is **not** proof of a completed post.
 
 ## Security model and important limitations
 
@@ -29,7 +43,7 @@ Private-access dashboard for discovering and launching personal applications, ag
 - The browser stores custom catalog edits and favorites in localStorage. These **do not automatically sync** across devices; export/import backups as needed. A future iteration can use authenticated Supabase storage.
 - This dashboard opens links. It does not automatically trigger external services unless a real integration is implemented and verified.
 - OpenSEO and OpenClaw require your local computer and services.
-- The DJ Finder currently copies a structured ChatGPT request; it does **not yet** automatically search YouTube and write to Sheets.
+- The DJ Finder no longer copies a ChatGPT prompt. It runs inside the app; official YouTube search and Google Sheets write-back remain gated on their server-side credentials.
 - An SSO-protected Vercel site may require an owner/team login. Confirm logged-out access is denied before distributing the hostname.
 - Recording a tool's URL and obtaining a successful Vercel deployment do not certify its login, payment flows, data integrity, accuracy, or automation.
 
@@ -39,9 +53,10 @@ The repository has a dependency-free CI smoke test:
 
 ```sh
 node tests/smoke.cjs
+node tests/native.cjs
 ```
 
-GitHub Actions runs the same script on push and pull requests. It checks JavaScript parsing, initial card rendering, search, category filtering, favorite persistence, main forms, and DJ prompt generation using a simulated DOM.
+GitHub Actions runs the same script on push and pull requests. It checks JavaScript parsing, initial card rendering, search, category filtering, favorite persistence, native workbench launching, CSV counting, real-estate calculations, YouTube video URL validation, and mocked API behavior.
 
 ### Required end-to-end checks before public launch
 
