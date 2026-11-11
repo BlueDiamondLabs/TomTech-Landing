@@ -1,13 +1,15 @@
-# TomTech Command Center
+# The Tool Vault
 
 Private-access dashboard for discovering and launching personal applications, agents, and workflows. Built with plain HTML, CSS, and JavaScript so it requires no package installation.
 
 ## Deployment
 
 - GitHub: BlueDiamondLabs/TomTech-Landing
-- Vercel project: tomtech-command-center
+- Vercel project: the-tool-vault
 - Vercel team: Tom Sawyer's projects
-- Live hostname: https://tomtech-command-center.vercel.app
+- GitHub source remains in the existing `BlueDiamondLabs/TomTech-Landing` repository to preserve the Git connection; that internal repository name is not the dashboard branding.
+- The short domain `the-tool-vault.vercel.app` was unavailable, so `the-tool-vault-hq.vercel.app` is the replacement protected address.
+- Live hostname: https://the-tool-vault-hq.vercel.app
 - Vercel Authentication: enabled for **all** deployments. Keep this protection enabled until all workflows are reviewed; deploying code does not authorize a public launch.
 - Automatic Vercel deployment follows pushes to `main`.
 
