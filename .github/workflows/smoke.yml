@@ -18,4 +18,6 @@ jobs:
         with:
           node-version: "22"
       - name: Run browser-free dashboard smoke tests
-        run: node tests/smoke.cjs
+        run: |
+          node tests/smoke.cjs
+          node tests/native.cjs
