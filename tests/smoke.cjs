@@ -23,7 +23,7 @@ async function main(){
  listeners.get("search:input")({target:{value:"RoofQuote"}});
  assert.equal(cards(),2,"search filters cards");
  listeners.get("search:input")({target:{value:""}});
- function click(selector,value){listeners.get("document:click")({target:{closest(k){if(k!==selector)return null;return {getAttribute(name){if(name==="data-cat"||name==="data-fav"||name==="data-action"||name==="data-id")return value;return null},hasAttribute(){return name==="data-action"}}}}})}
+ function click(selector,value){listeners.get("document:click")({target:{closest(k){if(k!==selector)return null;return {getAttribute(name){if(name==="data-cat"||name==="data-fav"||name==="data-action"||name==="data-id")return value;return null},hasAttribute(name){return name==="data-action"}}}}})}
  click("[data-cat]","Music");
  assert.equal(cards(),2,"music category filters cards");
  click("[data-cat]","All");
