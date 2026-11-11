@@ -30,7 +30,7 @@ async function main(){
  click("[data-fav]","dj");
  assert.ok(JSON.parse(storage).favs.includes("no:dj"),"favorites persist");
  click("[data-action]","test-center");
- assert.match(node("dialogHost").innerHTML,/Test & launch checklist/);
+ assert.match(node("dialogHost").innerHTML,/Test &amp; launch checklist/);
  click("[data-action]","dj");
  assert.match(node("dialogHost").innerHTML,/id="djForm"/);
  node("djArtist").value="9th Wonder";node("djCount").value="20";node("djType").value="Instrumentals only";node("djBpm").value="70–120 BPM";node("djTab").value="Boom Bap Scratch Crate";
